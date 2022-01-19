@@ -1,4 +1,5 @@
 const path = require("path");
+const ConsoleLogOnBuildWebpackPlugin = require("./plugin/myPlugin");
 module.exports = {
   mode: "development",
   //devtool: 'eval-source-map', //用于调试代码
@@ -29,14 +30,18 @@ module.exports = {
         test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: path.resolve(__dirname, "./loader/myLoader.js"),
           options: {
+            name: "1111",
             presets: ["@babel/env"],
           },
         },
       },
     ],
   },
+  plugins: [
+    new ConsoleLogOnBuildWebpackPlugin({ template: "./src/index.html" }),
+  ],
   devServer: {
     static: {
       directory: path.join(__dirname, "public"),
